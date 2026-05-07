@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Smart Life - Admin Quilpué</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Control Hogar Digital</h1>
+            <p id="fecha-actual" style="color: #a0a0b8; text-transform: capitalize; margin-top: 5px;"></p>
+        </header>
+
+        <div class="grid">
+            <div class="card" onclick="enviarComando('462330027c87ce8c6b21', 'switch_1', true)">
+                <div class="icon-container"><i class="fas fa-couch icon-light"></i></div>
+                <h3>Luces Living</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="enviarComando('eb0e65e07040405bba5kgc', 'switch_1', true)">
+                <div class="icon-container"><i class="fas fa-leaf icon-plant"></i></div>
+                <h3>Luz Huerto</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="enviarComando('eb1f9979026d6fa6fblsyq', 'switch_1', true)">
+                <div class="icon-container"><i class="fas fa-palette icon-rgb"></i></div>
+                <h3>Interruptor RGB</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="enviarComando('eb827810436fc71de17oht', 'switch_led', true)">
+                <div class="icon-container"><i class="fas fa-lightbulb icon-rgb"></i></div>
+                <h3>Led RGB Living</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="enviarComando('eb5947d1409fefc5dexgnk', 'switch_1', true)">
+                <div class="icon-container"><i class="fas fa-droplet icon-water"></i></div>
+                <h3>Riego Jardín</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="enviarComando('eba1a74eb7a8b5b0fbe2ee', 'switch_1', true)">
+                <div class="icon-container"><i class="fas fa-solar-panel icon-solar"></i></div>
+                <h3>Termo Solar</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="enviarComando('eb6b813f45e5c578fc3x3j', 'alarm_switch', true)">
+                <div class="icon-container"><i class="fas fa-shield-halved icon-security"></i></div>
+                <h3>Alarma</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card" onclick="alert('Abriendo Stream de Cámara...')">
+                <div class="icon-container"><i class="fas fa-video icon-camera"></i></div>
+                <h3>Cámara Frontis</h3>
+                <span class="status"><span class="status-dot online"></span> Online</span>
+            </div>
+
+            <div class="card sensor">
+                <div class="icon-container"><i class="fas fa-thermometer-half icon-sensor"></i></div>
+                <h3>Temp. Interior</h3>
+                <p id="temp-interior" style="font-size: 1.4em; font-weight: bold; color: #00d2ff;">--°C</p>
+                <span class="status">Real-time</span>
+            </div>
+
+            <div class="card sensor">
+                <div class="icon-container"><i class="fas fa-cloud-sun icon-sensor"></i></div>
+                <h3>Temp. Exterior</h3>
+                <p id="temp-exterior" style="font-size: 1.4em; font-weight: bold; color: #00d2ff;">--°C</p>
+                <span class="status">Real-time</span>
+            </div>
+        </div>
+
+        <footer style="margin-top: 50px; opacity: 0.3; font-size: 0.8em; text-align: center;">
+            Administración Centralizada Quilpué - Cloud Powered
+        </footer>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DEL WORKER (URL DE TU CLOUDFLARE)
+        const WORKER_URL = "https://tuya-proxy.rivendell20032004.workers.dev";
+
+        // Mostrar fecha actual
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString('es-CL', opciones);
+
+        // 1. FUNCIÓN PARA CONTROLAR DISPOSITIVOS
+        async function enviarComando(deviceId, code, value) {
+            console.log(`Enviando comando a ${deviceId}...`);
+            const path = `/v1.0/devices/${deviceId}/commands`;
+            
+            try {
+                const response = await fetch(`${WORKER_URL}?path=${encodeURIComponent(path)}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        "commands": [{ "code": code, "value": value }]
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    console.log("Comando ejecutado");
+                    // Feedback visual rápido
+                    alert("Acción realizada con éxito en Quilpué");
+                } else {
+                    alert("Error: " + data.msg);
+                }
+            } catch (error) {
+                console.error("Fallo de conexión con el Worker:", error);
+            }
+        }
+
+        // 2. FUNCIÓN PARA LEER SENSORES (TEMPERATURA REAL)
+        async function actualizarSensores() {
+            const sensores = [
+                { id: "eb3e9370fb94efeb20rlwr", element: "temp-interior" },
+                { id: "eba082cf81bb4a45d4fle2", element: "temp-exterior" }
+            ];
+
+            for (const sensor of sensores) {
+                const path = `/v1.0/devices/${sensor.id}/status`;
+                try {
+                    const res = await fetch(`${WORKER_URL}?path=${encodeURIComponent(path)}`);
+                    const data = await res.json();
+                    
+                    if (data.success && data.result) {
+                        const tempObj = data.result.find(s => s.code.includes('temp'));
+                        if (tempObj) {
+                            const valorFinal = tempObj.value / 10;
+                            document.getElementById(sensor.element).innerText = `${valorFinal}°C`;
+                        }
+                    }
+                } catch (e) {
+                    console.log("Error al leer sensor " + sensor.id);
+                }
+            }
+        }
+
+        // Carga inicial y refresco automático cada 5 minutos
+        window.onload = () => {
+            actualizarSensores();
+            setInterval(actualizarSensores, 300000); 
+        };
+    </script>
+</body>
+</html>

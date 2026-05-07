@@ -1,0 +1,177 @@
+/* CONFIGURACIÓN DE VARIABLES - ESTILO PREMIUM */
+:root {
+    --bg-color: #0d0f14;
+    --card-bg: rgba(23, 25, 35, 0.8);
+    --accent-color: #00d2ff;
+    --text-main: #ffffff;
+    --text-dim: #94a3b8;
+    --online-color: #22c55e;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* RESET GENERAL */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 50% 0%, #1e2235 0%, #0d0f14 100%);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* LA CUADRÍCULA - AUTOAJUSTABLE */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+/* LAS TARJETAS (CARDS) */
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    border-radius: 28px;
+    padding: 35px 20px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    background: rgba(30, 35, 50, 0.9);
+    border-color: var(--accent-color);
+    box-shadow: 0 15px 40px rgba(0, 210, 255, 0.15);
+}
+
+.card:active {
+    transform: scale(0.96);
+}
+
+/* CONTENEDOR DE ICONO */
+.icon-container {
+    height: 90px; /* Espacio para el icono */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.icon-container i {
+    font-size: 60px; /* Tamaño grande corregido */
+    transition: transform 0.3s ease;
+}
+
+.card:hover .icon-container i {
+    transform: scale(1.15);
+}
+
+/* COLORES DE ICONOS (ESTILO FLAT) */
+.icon-light { color: #ffcc00; filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.3)); }
+.icon-plant { color: #4ade80; filter: drop-shadow(0 0 15px rgba(74, 222, 128, 0.3)); }
+.icon-rgb { color: #a855f7; filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.3)); }
+.icon-water { color: #3b82f6; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.3)); }
+.icon-solar { color: #fb923c; filter: drop-shadow(0 0 15px rgba(251, 146, 60, 0.3)); }
+.icon-security { color: #f87171; filter: drop-shadow(0 0 15px rgba(248, 113, 113, 0.3)); }
+.icon-camera { color: #94a3b8; filter: drop-shadow(0 0 15px rgba(148, 163, 184, 0.3)); }
+.icon-sensor { color: #00d2ff; }
+
+/* TEXTOS DENTRO DE LA CARD */
+h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.status {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* PUNTO ONLINE CON ANIMACIÓN */
+.status-dot {
+    height: 8px;
+    width: 8px;
+    background-color: var(--online-color);
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 8px var(--online-color);
+    position: relative;
+}
+
+.online::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: inherit;
+    border-radius: 50%;
+    animation: ripple 2s infinite;
+}
+
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+/* ESTILO PARA SENSORES (NO CLICKEABLES) */
+.card.sensor {
+    cursor: default;
+    background: rgba(15, 17, 26, 0.6);
+}
+
+.card.sensor:hover {
+    transform: none;
+    border-color: var(--card-border);
+    box-shadow: var(--shadow-soft);
+}
+
+/* RESPONSIVO (MÓVIL) */
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en celular */
+        gap: 15px;
+    }
+    
+    .icon-container i {
+        font-size: 45px; /* Un poco más pequeño en móvil */
+    }
+    
+    h1 {
+        font-size: 1.7rem;
+    }
+}
