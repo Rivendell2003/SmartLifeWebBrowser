@@ -85,14 +85,14 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DEL WORKER (URL DE TU CLOUDFLARE)
+        // LA CONFIGURACIÓN DEL WORKER CLOUDFARE
         const WORKER_URL = "https://tuya-proxy.rivendell20032004.workers.dev";
 
         // Mostrar fecha actual
         const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('fecha-actual').innerText = new Date().toLocaleDateString('es-CL', opciones);
 
-        // 1. FUNCIÓN PARA CONTROLAR DISPOSITIVOS
+        // UNA FUN PARA CONTROLAR DISPOSITIVOS
         async function enviarComando(deviceId, code, value) {
             console.log(`Enviando comando a ${deviceId}...`);
             const path = `/v1.0/devices/${deviceId}/commands`;
@@ -110,7 +110,7 @@
                 if (data.success) {
                     console.log("Comando ejecutado");
                     // Feedback visual rápido
-                    alert("Acción realizada con éxito en Quilpué");
+                    alert("Acción realizada con éxito ");
                 } else {
                     alert("Error: " + data.msg);
                 }
@@ -119,7 +119,7 @@
             }
         }
 
-        // 2. FUNCIÓN PARA LEER SENSORES (TEMPERATURA REAL)
+        // LA FUNCIÓN PARA LEER SENSORES (TEMPERATURA REAL)
         async function actualizarSensores() {
             const sensores = [
                 { id: "eb3e9370fb94efeb20rlwr", element: "temp-interior" },
