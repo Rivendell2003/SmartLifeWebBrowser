@@ -1,4 +1,4 @@
-/* CONFIGURACIÓN DE VARIABLES - ESTILO PREMIUM */
+/* CONFIGURACIÓN DE VARIABLES */
 :root {
     --bg-color: #0d0f14;
     --card-bg: rgba(23, 25, 35, 0.8);
@@ -44,7 +44,7 @@ h1 {
     letter-spacing: -0.5px;
 }
 
-/* LA CUADRÍCULA - AUTOAJUSTABLE */
+/* LA CUADRÍCULA  */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -80,7 +80,7 @@ h1 {
 
 /* CONTENEDOR DE ICONO */
 .icon-container {
-    height: 90px; /* Espacio para el icono */
+    height: 90px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,7 +88,7 @@ h1 {
 }
 
 .icon-container i {
-    font-size: 60px; /* Tamaño grande corregido */
+    font-size: 60px; 
     transition: transform 0.3s ease;
 }
 
@@ -96,7 +96,7 @@ h1 {
     transform: scale(1.15);
 }
 
-/* COLORES DE ICONOS (ESTILO FLAT) */
+/* COLORES DE ICONOS  */
 .icon-light { color: #ffcc00; filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.3)); }
 .icon-plant { color: #4ade80; filter: drop-shadow(0 0 15px rgba(74, 222, 128, 0.3)); }
 .icon-rgb { color: #a855f7; filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.3)); }
@@ -148,7 +148,7 @@ h3 {
     100% { transform: scale(3); opacity: 0; }
 }
 
-/* ESTILO PARA SENSORES (NO CLICKEABLES) */
+/* ESTILO PARA SENSORES NO CLICKEABLES */
 .card.sensor {
     cursor: default;
     background: rgba(15, 17, 26, 0.6);
@@ -160,15 +160,15 @@ h3 {
     box-shadow: var(--shadow-soft);
 }
 
-/* RESPONSIVO (MÓVIL) */
+/* MÓVIL*/
 @media (max-width: 480px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en celular */
+        grid-template-columns: repeat(2, 1fr); 
         gap: 15px;
     }
     
     .icon-container i {
-        font-size: 45px; /* Un poco más pequeño en móvil */
+        font-size: 45px; 
     }
     
     h1 {
